@@ -1,0 +1,4 @@
+Application opened successfully
+Login to application successfully
+New employee added successfully
+Logout from application successfully
