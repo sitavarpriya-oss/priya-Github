@@ -1,0 +1,6 @@
+Application opened successfully
+Login to application successfully
+Employee search done
+Emp check done
+Employee deleted successfully
+Logout from application successfully
