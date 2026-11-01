@@ -1,0 +1,507 @@
+:root {
+	font-family: var(--font-sans, system-ui, sans-serif);
+	font-size: 16px;
+	color: var(--text-color-default, CanvasText);
+	background: var(--background-color-muted, Canvas);
+	--app-scrollbar-thumb-color: color-mix(
+		in oklch,
+		var(--background-color-neutral-emphasis) 70%,
+		transparent
+	);
+	--app-scrollbar-thumb-hover-color: color-mix(
+		in oklch,
+		var(--background-color-neutral-emphasis) 50%,
+		var(--text-color-default)
+	);
+}
+
+:root:not([data-platform="macos"]) {
+	--app-scrollbar-track-color: var(
+		--background-color-control-transparent-active
+	);
+}
+
+/* Native canvas WebViews do not inherit the app's global scrollbar rules. */
+html:is([data-platform="windows"], [data-platform="linux"])
+	:where(*)::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+html:is([data-platform="windows"], [data-platform="linux"])
+	:where(*)::-webkit-scrollbar-track {
+	background-color: var(--app-scrollbar-track-color);
+	border-radius: 999px;
+}
+
+html:is([data-platform="windows"], [data-platform="linux"])
+	:where(*)::-webkit-scrollbar-thumb {
+	background-color: var(--app-scrollbar-thumb-color);
+	border: 1px solid transparent;
+	border-radius: 999px;
+	background-clip: content-box;
+}
+
+html:is([data-platform="windows"], [data-platform="linux"])
+	:where(*)::-webkit-scrollbar-thumb:hover {
+	background-color: var(--app-scrollbar-thumb-hover-color);
+	border: none;
+	background-clip: border-box;
+	border-radius: 999px;
+}
+
+html:is([data-platform="windows"], [data-platform="linux"])
+	:where(*)::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+:root:has([data-flat="true"]),
+:root:has(.picker-loading) {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+body {
+	margin: 0;
+	padding: 12px 20px;
+	padding-bottom: calc(8px + min(6rem, 40vh));
+	font-size: var(--text-body-ui, 0.8125rem);
+	line-height: var(--leading-body-ui, 1.25rem);
+	user-select: none;
+}
+
+main {
+	width: 100%;
+}
+
+h2 {
+	margin: 0 0 4px;
+	font-size: var(--text-body-medium, 0.875rem);
+	font-weight: var(--font-weight-semibold, 600);
+}
+
+p {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.field-hint {
+	font-size: var(--text-body-small, 0.75rem);
+	line-height: var(--leading-body-small, 1.6666);
+	color: var(--text-color-muted, CanvasText);
+}
+
+.selection {
+	color: var(--text-color-muted, CanvasText);
+}
+
+.picker-form {
+	display: grid;
+	gap: 12px;
+}
+
+.picker-field {
+	display: grid;
+	gap: 4px;
+	min-width: 0;
+}
+
+.quick-fill {
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	align-items: center;
+	gap: 4px;
+	min-width: 0;
+}
+
+.quick-fill .request-error {
+	grid-column: 1 / -1;
+}
+
+.field-label {
+	font-size: var(--text-caption, 0.75rem);
+	line-height: var(--leading-caption, 1.3333);
+	font-weight: 600;
+	color: var(--text-color-muted, CanvasText);
+}
+
+.field-feedback {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+}
+
+.picker-input {
+	width: 100%;
+	min-width: 0;
+	min-height: 32px;
+	padding: 5px 10px;
+	font: inherit;
+	color: var(--text-color-default, CanvasText);
+	background: transparent;
+	border: 1px solid var(--border-color-control-rest, ButtonBorder);
+	border-radius: 6px;
+}
+
+.picker-input[aria-disabled="true"] {
+	color: var(--text-color-control-disabled, GrayText);
+	background: var(--background-color-control-disabled, Canvas);
+	border-color: var(--border-color-control-disabled, GrayText);
+}
+
+.picker-field[data-blocked="true"] .field-label,
+.picker-input[aria-disabled="true"]::placeholder {
+	color: var(--text-color-control-disabled, GrayText);
+}
+
+.picker-input::placeholder {
+	color: var(--text-color-control-placeholder, GrayText);
+}
+
+button {
+	justify-self: start;
+	min-height: 32px;
+	padding: 6px 12px;
+	font: inherit;
+	font-weight: 500;
+	color: var(--text-color-button-default-rest, ButtonText);
+	background: var(--background-color-button-default-rest, ButtonFace);
+	border: 1px solid var(--border-color-button-default-rest, ButtonBorder);
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+button:hover {
+	background: var(--background-color-button-default-hover, ButtonFace);
+}
+
+button:focus-visible,
+.account-settings:focus-visible,
+.picker-input:focus-visible:not(.flat-picker .picker-input) {
+	outline: 2px solid var(--outline-color-focus-default, Highlight);
+	outline-offset: 2px;
+}
+
+.inline-retry {
+	min-height: 24px;
+	padding: 0;
+	font-weight: 600;
+	color: var(--text-color-link, Highlight);
+	background: transparent;
+	border: 0;
+}
+
+.inline-retry:hover {
+	background: transparent;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.primary {
+	justify-self: end;
+	color: var(--text-color-button-primary-rest, HighlightText);
+	background: var(--background-color-button-primary-rest, Highlight);
+	border-color: var(--border-color-button-primary-rest, Highlight);
+}
+
+.primary:hover {
+	background: var(--background-color-button-primary-hover, Highlight);
+}
+
+.primary[aria-disabled="true"] {
+	color: var(--text-color-button-primary-disabled, GrayText);
+	background: var(--background-color-button-primary-disabled, ButtonFace);
+	border-color: var(--border-color-button-primary-disabled, ButtonBorder);
+	cursor: default;
+}
+
+.picker-options {
+	position: fixed;
+	z-index: 1;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 1px solid var(--border-color-control-rest, ButtonBorder);
+	border-radius: 6px;
+	padding: 4px;
+	background: var(--background-color-muted, Canvas);
+}
+
+.picker-option {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 12px;
+	min-height: 32px;
+	padding: 6px 8px;
+	border-radius: 4px;
+	overflow-wrap: anywhere;
+	cursor: pointer;
+}
+
+.picker-field:not(.flat-picker) .picker-option:hover,
+.picker-option[data-active="true"] {
+	background: var(--background-color-control-transparent-active, ButtonFace);
+}
+
+.picker-option[data-active="true"] {
+	outline: 2px solid var(--outline-color-focus-default, Highlight);
+	outline-offset: -2px;
+}
+
+.picker-option[aria-selected="true"] {
+	font-weight: 600;
+	border-inline-start: 3px solid var(--outline-color-focus-default, Highlight);
+}
+
+body:has([data-flat="true"]),
+body:has(.picker-loading) {
+	padding: 0;
+}
+
+.picker-loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100dvh;
+	font-size: var(--text-body-small, 0.75rem);
+	color: var(--text-color-muted, CanvasText);
+}
+
+main:has([data-flat="true"]) {
+	height: 100dvh;
+}
+
+[data-flat="true"] {
+	height: 100%;
+}
+
+[data-flat="true"] .picker-form {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	gap: 0;
+	font-size: var(--text-body-ui, 0.8125rem);
+}
+
+:root:has([data-flat="true"]) {
+	background: var(--background-color-muted, Canvas);
+}
+
+[data-flat="true"] .picker-form > :not(.flat-picker) {
+	flex-shrink: 0;
+}
+
+[data-flat="true"] .quick-fill,
+[data-flat="true"] .selection,
+[data-flat="true"] .picker-field:not(.flat-picker),
+[data-flat="true"] .request-error,
+[data-flat="true"] .secondary,
+[data-flat="true"] .primary {
+	margin-inline: 16px;
+}
+
+.flat-picker {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+	gap: 0;
+}
+
+.flat-picker > .picker-input {
+	order: -1;
+	flex-shrink: 0;
+	outline: none;
+	border: 0;
+	border-bottom: 1px solid var(--border-color-muted, ButtonBorder);
+	border-radius: 0;
+	padding-block: 12px;
+	padding-inline: 16px;
+	line-height: 1.5;
+}
+
+.flat-picker > .picker-input::placeholder {
+	color: color-mix(in oklab, currentColor 50%, transparent);
+	opacity: 1;
+}
+
+:root:has(meta[name="completion-owner"][content="host"])
+	.flat-picker
+	.picker-input {
+	padding-block-start: max(0px, calc(12px - var(--radius-large, 12px)));
+}
+
+.flat-picker .field-label {
+	flex-shrink: 0;
+	padding: 18px 20px 6px;
+	line-height: 1.5;
+}
+
+.flat-options {
+	position: relative;
+	flex: 1;
+	min-block-size: 0;
+	border: 0;
+	border-radius: 0;
+	padding: 0 8px;
+}
+
+.flat-options .picker-option {
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 12px;
+	min-height: 32px;
+	padding: 6px 12px;
+	border-radius: 6px;
+	font-weight: 400;
+	line-height: 1.5;
+	border-inline-start: 0;
+	position: relative;
+	isolation: isolate;
+}
+
+.flat-options .picker-option[data-active="true"] {
+	background: var(--background-color-control-transparent-active, ButtonFace);
+	outline: none;
+}
+
+.flat-options[data-keyboard-active="true"] .picker-option[data-active="true"]::after {
+	position: absolute;
+	inset-block: 6px;
+	inset-inline-start: -6px;
+	width: 4px;
+	border-radius: 4px;
+	background: var(
+		--text-color-accent,
+		var(--outline-color-focus-default, Highlight)
+	);
+	content: "";
+}
+
+.repository-icon {
+	display: flex;
+	flex-shrink: 0;
+	color: var(--text-color-muted, CanvasText);
+}
+
+.return-hint {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	color: var(--text-color-muted, CanvasText);
+	opacity: 0;
+}
+
+.picker-option[data-active="true"] .return-hint {
+	opacity: 1;
+}
+
+.repository-name {
+	min-width: 0;
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+	.flat-options[data-keyboard-active="true"]
+		.picker-option[data-active="true"]::after {
+		background: Highlight;
+	}
+}
+
+.repository-path-tooltip {
+	position: fixed;
+	z-index: 2;
+	width: min(400px, calc(100vw - 16px));
+	padding: 6px 8px;
+	border: 1px solid var(--border-color-control-rest, ButtonBorder);
+	border-radius: 6px;
+	background: var(--background-color-muted, Canvas);
+	color: var(--text-color-default, CanvasText);
+	overflow-wrap: anywhere;
+}
+
+.flat-picker .field-feedback {
+	flex-shrink: 0;
+	padding: 12px 16px;
+}
+
+.request-error {
+	color: var(--text-color-danger, CanvasText);
+}
+
+.account-empty {
+	display: grid;
+	justify-items: start;
+	gap: 16px;
+}
+
+.account-empty-intro {
+	display: grid;
+	gap: 4px;
+}
+
+.account-empty-intro h2 {
+	margin: 0;
+}
+
+.account-empty .inline-retry {
+	vertical-align: baseline;
+}
+
+.account-empty .inline-retry[aria-disabled="true"] {
+	color: var(--text-color-muted, GrayText);
+	cursor: wait;
+}
+
+.account-settings {
+	display: inline-flex;
+	align-items: center;
+	height: 32px;
+	padding: 0 12px;
+	color: var(--text-color-button-primary-rest, HighlightText);
+	background: var(--background-color-button-primary-rest, Highlight);
+	border: 1px solid var(--border-color-button-primary-rest, Highlight);
+	border-radius: 6px;
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.account-settings:hover {
+	background: var(--background-color-button-primary-hover, Highlight);
+}
+
+[data-selectable="true"],
+input {
+	user-select: text;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+@media (width <= 400px) {
+	.primary {
+		justify-self: stretch;
+	}
+}

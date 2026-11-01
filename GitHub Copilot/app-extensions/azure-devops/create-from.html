@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="picker-document" content="PICKER_DOCUMENT">
+		<meta name="completion-owner" content="host">
+		<meta name="repository-name" content="REPOSITORY_NAME">
+		<title>Create from Azure DevOps</title>
+		<link rel="stylesheet" href="/repository-picker.css">
+		<link rel="stylesheet" href="/create-from.css">
+	</head>
+	<body>
+		<main>
+			<div id="picker" data-flat="true">
+				<div id="picker-form" class="picker-form">
+					<section id="account-empty" class="account-empty" hidden>
+						<div class="account-empty-intro">
+							<h2 id="account-empty-title" hidden>Add a Microsoft account</h2>
+							<p id="account-empty-description" class="field-hint"></p>
+						</div>
+						<a id="settings" class="account-settings" href="ghapp://settings/account" target="_blank" rel="noopener noreferrer" aria-describedby="account-empty-description">Open Account settings</a>
+						<p id="account-empty-help" class="field-hint" hidden><span id="account-empty-context">After adding your account, close Settings and </span><button id="check-accounts" class="inline-retry" type="button" aria-describedby="account-empty-context">check again</button>.</p>
+					</section>
+					<div id="account-field" class="picker-field" hidden>
+						<label class="field-label" for="account">Microsoft account</label>
+						<select id="account" class="picker-input" aria-required="true"></select>
+					</div>
+					<div id="source" class="picker-field flat-picker">
+						<label id="query-label" class="sr-only" for="query">Search branches</label>
+						<input id="query" class="picker-input" type="text" role="combobox" placeholder="Search by branch name" autocomplete="off" spellcheck="false" aria-expanded="false" aria-describedby="status">
+						<div class="picker-header">
+							<div id="source-tabs" class="picker-tabs" role="tablist" aria-label="Create from source">
+								<button class="picker-tab" type="button" role="tab" data-mode="branch" aria-selected="true" tabindex="0">Branches</button>
+								<button class="picker-tab" type="button" role="tab" data-mode="pull-request" aria-selected="false" tabindex="-1">Pull requests</button>
+							</div>
+							<span id="repository" class="picker-repository"></span>
+						</div>
+						<section id="source-panel" class="picker-panel" role="tabpanel" aria-label="Branches">
+							<h2 id="results-heading" class="field-label">Recent branches</h2>
+							<div id="results" class="picker-options flat-options" role="listbox" aria-labelledby="results-heading"></div>
+							<div id="feedback" class="field-feedback">
+								<p id="status" class="field-hint" data-selectable="true">Loading Azure DevOps...</p>
+								<button id="retry" class="inline-retry" type="button" hidden>Retry</button>
+							</div>
+						</section>
+					</div>
+				</div>
+				<div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+				<p id="selected" class="sr-only" role="status"></p>
+			</div>
+		</main>
+		<script type="module" src="/create-from-view.mjs"></script>
+	</body>
+</html>

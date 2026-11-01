@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "name": "ExcelAuthWindow",
+  "platform": "win32",
+  "architecture": "x64",
+  "sourceKey": "86a9b75da9ef78757f6a2cd4eb60b56c361197f8857b9c2123b50679babcc327",
+  "inputs": {
+    "shared/auth/window/main.cpp": "da633aee6ab4d389d568a22e9dc1676853e76ec86d73c0baf5c939ddcaabae71",
+    "shared/auth/window/app.manifest": "7905241a42f7b7827bc6d8c2bf3f397b1e54c10c493182e5e43ca7b212844ac0",
+    "shared/build/build-auth-window.mjs": "d84856c24edbd5e325d4b17388f7d60065614c94539f5e7d57299597a8020882"
+  },
+  "compiler": {
+    "family": "MSVC",
+    "version": "19.44.35222",
+    "target": "x64",
+    "runtime": "/MT"
+  },
+  "compileFlags": [
+    "/O1",
+    "/MT",
+    "/W4",
+    "/WX",
+    "/std:c++17",
+    "/EHsc",
+    "/GS",
+    "/guard:cf",
+    "/utf-8",
+    "/DUNICODE",
+    "/D_UNICODE",
+    "/DNOMINMAX",
+    "/DWIN32_LEAN_AND_MEAN",
+    "/D_WIN32_WINNT=0x0A00",
+    "/DAUTH_WINDOW_PRODUCT=Excel"
+  ],
+  "linkFlags": [
+    "/DYNAMICBASE",
+    "/NXCOMPAT",
+    "/HIGHENTROPYVA",
+    "/guard:cf",
+    "/OPT:REF",
+    "/OPT:ICF",
+    "/INCREMENTAL:NO",
+    "/Brepro",
+    "/MANIFEST:EMBED",
+    "/SUBSYSTEM:WINDOWS",
+    "/ENTRY:wmainCRTStartup"
+  ],
+  "executable": {
+    "name": "ExcelAuthWindow.exe",
+    "bytes": 150328,
+    "sha256": "0cd3be619f60e824882d963d8ec6ef1972f0cd8a7c5804505c63c86cbf352122",
+    "imports": [
+      "KERNEL32.dll",
+      "USER32.dll"
+    ],
+    "unsignedBytes": 138240,
+    "unsignedSha256": "990371170f401eb9aea0a505976e8d2199c648f49116c7ef74b3193083becc71"
+  },
+  "runtime": "Statically linked Microsoft Visual C/C++ runtime (/MT); Windows system DLLs only.",
+  "protocol": {
+    "version": 1,
+    "lifetimeMs": 300000,
+    "stdin": "close\\n or EOF",
+    "readyHandle": "decimal HWND string",
+    "window": "hidden top-level",
+    "maximumRecordBytes": 128
+  }
+}

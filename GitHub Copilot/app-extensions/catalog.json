@@ -1,0 +1,31 @@
+[
+	{
+		"packageId": "com.microsoft.azure-devops",
+		"directory": "azure-devops",
+		"featureFlag": "azure_devops",
+		"actionTelemetry": true,
+		"authentication": [
+			{ "activationId": "app", "resources": ["azure-devops"] }
+		],
+		"pullRequestViewActions": [
+			{
+				"activationId": "app",
+				"providerId": "azure-devops",
+				"actions": [
+					"edit",
+					"comment",
+					"reply",
+					"edit-comment",
+					"delete-comment",
+					"thread-status",
+					"vote",
+					"reviewer",
+					"draft",
+					"complete",
+					"abandon",
+					"reactivate"
+				]
+			}
+		]
+	}
+]

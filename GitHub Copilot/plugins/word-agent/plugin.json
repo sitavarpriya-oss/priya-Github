@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "word-agent",
+  "version": "0.1.1-57692217",
+  "description": "Create and edit Word documents, then preview them in an authenticated Copilot app canvas and chat card.",
+  "keywords": [
+    "word",
+    "documents",
+    "word-agent",
+    "docx",
+    "office",
+    "canvas"
+  ]
+}

@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--color-text-primary, CanvasText); background: transparent; }
+    .card {
+      overflow: hidden;
+      border: 1px solid var(--color-border-secondary, color-mix(in srgb, CanvasText 18%, transparent));
+      border-radius: var(--border-radius-lg, 12px);
+      background: var(--color-background-primary, Canvas);
+      box-shadow: var(--shadow-sm, 0 2px 8px rgb(0 0 0 / 10%));
+    }
+    .preview {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, #b7472a, #e96b45);
+    }
+    .preview img { width: 100%; height: 100%; object-fit: cover; }
+    .ppt { font-size: clamp(36px, 12vw, 72px); font-weight: 700; color: white; }
+    .body { padding: 14px; }
+    .eyebrow { color: var(--color-text-secondary, GrayText); font-size: 12px; font-weight: 600; }
+    h2 { margin: 4px 0 14px; overflow: hidden; font-size: 16px; text-overflow: ellipsis; white-space: nowrap; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    button {
+      min-height: 32px;
+      padding: 6px 12px;
+      border: 1px solid var(--color-border-primary, color-mix(in srgb, CanvasText 24%, transparent));
+      border-radius: var(--border-radius-md, 8px);
+      color: var(--color-text-primary, CanvasText);
+      background: var(--color-background-secondary, ButtonFace);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.primary { border-color: #d35230; color: white; background: #d35230; }
+    button:disabled { cursor: default; opacity: .55; }
+    .status { margin-top: 10px; color: var(--color-text-secondary, GrayText); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <article class="card">
+    <div class="preview" id="preview"><span class="ppt">P</span></div>
+    <div class="body">
+      <div class="eyebrow">PowerPoint presentation</div>
+      <h2 id="title">Preparing presentation…</h2>
+      <div class="actions">
+        <button class="primary" id="previewButton" disabled>Open in Copilot</button>
+        <button id="linkButton" disabled>Open in PowerPoint</button>
+      </div>
+      <div class="status" id="status">Waiting for PowerPoint to finish…</div>
+    </div>
+  </article>
+  <script>
+    (() => {
+      const pending = new Map();
+      const protocolVersion = "2026-01-26";
+      let nextId = 1;
+      let presentation;
+      let contextUpdatesUnavailable = false;
+
+      function errorMessage(error, fallback) {
+        return typeof error?.message === "string" ? error.message : fallback;
+      }
+
+      function request(method, params) {
+        const id = nextId++;
+        return new Promise((resolve, reject) => {
+          const timer = setTimeout(() => {
+            pending.delete(id);
+            reject(new Error(`The Copilot host did not respond to ${method}.`));
+          }, 120000);
+          pending.set(id, { resolve, reject, timer, method });
+          try {
+            window.parent.postMessage({ jsonrpc: "2.0", id, method, params }, "*");
+          } catch (error) {
+            pending.delete(id);
+            clearTimeout(timer);
+            reject(error);
+          }
+        });
+      }
+
+      function notify(method, params) {
+        window.parent.postMessage({ jsonrpc: "2.0", method, params }, "*");
+      }
+
+      function findPresentation(result) {
+        const direct = result?.structuredContent?.powerpointPresentation;
+        if (direct?.artifactUrl) return direct;
+        for (const item of result?.content || []) {
+          if (item?.type !== "text") continue;
+          const match = item.text.match(/https:\/\/[^\s"'<>]+/);
+          if (match) return { artifactUrl: match[0].replace(/[),.;]+$/, ""), title: "PowerPoint presentation" };
+        }
+      }
+
+      async function render(value) {
+        presentation = value;
+        document.getElementById("title").textContent = value.title || "PowerPoint presentation";
+        try {
+          await initialized;
+          document.getElementById("status").textContent = "Ready to open";
+          for (const id of ["previewButton", "linkButton"]) {
+            document.getElementById(id).disabled = false;
+          }
+          const dataResult = await request("tools/call", {
+            name: "powerpoint_card_data",
+            arguments: { artifactUrl: value.artifactUrl, title: value.title }
+          });
+          const data = dataResult?.structuredContent || {};
+          if (data.fileName) document.getElementById("title").textContent = data.fileName;
+          if (data.thumbnailDataUri) {
+            const image = document.createElement("img");
+            image.src = data.thumbnailDataUri;
+            image.alt = "First slide preview";
+            document.getElementById("preview").replaceChildren(image);
+          }
+        } catch (error) {
+          document.getElementById("status").textContent = error?.message || "Preview unavailable. Connect your PowerPoint account and reopen the presentation.";
+        }
+      }
+
+      window.addEventListener("message", async (event) => {
+        if (event.source !== window.parent) return;
+        const message = event.data;
+        if (!message || message.jsonrpc !== "2.0") return;
+        if (message.id !== undefined && pending.has(message.id)) {
+          const handler = pending.get(message.id);
+          pending.delete(message.id);
+          clearTimeout(handler.timer);
+          if (message.error) {
+            const error = new Error(`${handler.method}: ${errorMessage(message.error, "The host rejected the request.")}`);
+            error.code = message.error.code;
+            handler.reject(error);
+          }
+          else if (message.result?.isError) {
+            const detail = message.result.content?.find?.((item) => item.type === "text")?.text;
+            handler.reject(new Error(`${handler.method}: ${detail || "The Copilot host rejected the request."}`));
+          }
+          else handler.resolve(message.result);
+          return;
+        }
+        if (message.method === "ui/notifications/tool-result") {
+          const value = findPresentation(message.params);
+          if (value) await render(value);
+        }
+      });
+
+      document.getElementById("previewButton").addEventListener("click", async () => {
+        const button = document.getElementById("previewButton");
+        const status = document.getElementById("status");
+        button.disabled = true;
+        status.textContent = "Opening in Copilot…";
+        try {
+          const capabilities = await initialized;
+          if (capabilities.message !== undefined && !capabilities.message?.text) {
+            throw new Error("The Copilot host does not support text messages from this card.");
+          }
+          let messageText = `Open this existing PowerPoint in the Copilot canvas using open_powerpoint_canvas. Do not regenerate or edit it. Presentation URL: ${presentation.artifactUrl}`;
+          if (!contextUpdatesUnavailable
+              && capabilities.updateModelContext?.text
+              && capabilities.updateModelContext?.structuredContent) {
+            try {
+              await request("ui/update-model-context", {
+                content: [{
+                  type: "text",
+                  text: "Open the referenced presentation by invoking open_powerpoint_canvas with the supplied powerpointCanvasRequest parameters."
+                }],
+                structuredContent: {
+                  powerpointCanvasRequest: {
+                    artifactUrl: presentation.artifactUrl,
+                    title: presentation.title,
+                    instanceId: "powerpoint-presentation-view",
+                    mode: "view"
+                  }
+                }
+              });
+              messageText = "Open this PowerPoint in Copilot.";
+            } catch (error) {
+              if (error?.code !== -32601) throw error;
+              contextUpdatesUnavailable = true;
+            }
+          }
+          await request("ui/message", {
+            role: "user",
+            content: [{ type: "text", text: messageText }]
+          });
+          status.textContent = "Open request sent to Copilot";
+        } catch (error) {
+          status.textContent = `Could not open in Copilot: ${errorMessage(error, "The host rejected the request.")}`;
+        } finally {
+          button.disabled = false;
+        }
+      });
+      document.getElementById("linkButton").addEventListener("click", async () => {
+        try {
+          await request("ui/open-link", { url: presentation.artifactUrl });
+        } catch (error) {
+          document.getElementById("status").textContent = errorMessage(error, "Could not open PowerPoint.");
+        }
+      });
+
+      const initialized = request("ui/initialize", {
+        protocolVersion,
+        appCapabilities: { availableDisplayModes: ["inline", "fullscreen"] },
+        appInfo: { name: "powerpoint-result-card", version: "1.0.0" }
+      }).then((result) => {
+        if (result?.protocolVersion !== protocolVersion) {
+          throw new Error("The Copilot host did not negotiate a supported MCP Apps protocol version.");
+        }
+        if (!result.hostCapabilities || typeof result.hostCapabilities !== "object"
+            || Array.isArray(result.hostCapabilities)) {
+          throw new Error("The Copilot host returned invalid MCP Apps capabilities.");
+        }
+        notify("ui/notifications/initialized", {});
+        return result.hostCapabilities;
+      });
+      initialized.catch((error) => {
+        document.getElementById("status").textContent = errorMessage(error, "The Copilot card could not initialize.");
+      });
+    })();
+  </script>
+</body>
+</html>

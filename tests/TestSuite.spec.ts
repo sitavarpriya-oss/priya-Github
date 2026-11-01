@@ -20,4 +20,5 @@ test('TC002-Verify add employee functionality',async({page})=>{
     await general1.addNewEmployee();
     await general1.logoutFromApplication();
 });
+
 });

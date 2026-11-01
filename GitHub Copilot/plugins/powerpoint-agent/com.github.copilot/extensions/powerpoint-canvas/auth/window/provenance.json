@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "name": "PowerPointAuthWindow",
+  "platform": "win32",
+  "architecture": "x64",
+  "sourceKey": "43a0886cf104529adba21b40d9ff4925e8ebb6e90b723f677b0a970ab95c4bf6",
+  "inputs": {
+    "shared/auth/window/main.cpp": "da633aee6ab4d389d568a22e9dc1676853e76ec86d73c0baf5c939ddcaabae71",
+    "shared/auth/window/app.manifest": "7905241a42f7b7827bc6d8c2bf3f397b1e54c10c493182e5e43ca7b212844ac0",
+    "shared/build/build-auth-window.mjs": "d84856c24edbd5e325d4b17388f7d60065614c94539f5e7d57299597a8020882"
+  },
+  "compiler": {
+    "family": "MSVC",
+    "version": "19.44.35222",
+    "target": "x64",
+    "runtime": "/MT"
+  },
+  "compileFlags": [
+    "/O1",
+    "/MT",
+    "/W4",
+    "/WX",
+    "/std:c++17",
+    "/EHsc",
+    "/GS",
+    "/guard:cf",
+    "/utf-8",
+    "/DUNICODE",
+    "/D_UNICODE",
+    "/DNOMINMAX",
+    "/DWIN32_LEAN_AND_MEAN",
+    "/D_WIN32_WINNT=0x0A00",
+    "/DAUTH_WINDOW_PRODUCT=PowerPoint"
+  ],
+  "linkFlags": [
+    "/DYNAMICBASE",
+    "/NXCOMPAT",
+    "/HIGHENTROPYVA",
+    "/guard:cf",
+    "/OPT:REF",
+    "/OPT:ICF",
+    "/INCREMENTAL:NO",
+    "/Brepro",
+    "/MANIFEST:EMBED",
+    "/SUBSYSTEM:WINDOWS",
+    "/ENTRY:wmainCRTStartup"
+  ],
+  "executable": {
+    "name": "PowerPointAuthWindow.exe",
+    "bytes": 150304,
+    "sha256": "2ae78f8c6d7a08c0fbd3fcd6951a93caef7ee91b220ee63cf782d7331b33d6b6",
+    "imports": [
+      "KERNEL32.dll",
+      "USER32.dll"
+    ],
+    "unsignedBytes": 138240,
+    "unsignedSha256": "7707f20338a4123ad0ca18e60d64cd8ae2e51a1aec2ac9e94422c69493f2689a"
+  },
+  "runtime": "Statically linked Microsoft Visual C/C++ runtime (/MT); Windows system DLLs only.",
+  "protocol": {
+    "version": 1,
+    "lifetimeMs": 300000,
+    "stdin": "close\\n or EOF",
+    "readyHandle": "decimal HWND string",
+    "window": "hidden top-level",
+    "maximumRecordBytes": 128
+  }
+}

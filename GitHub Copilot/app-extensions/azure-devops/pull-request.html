@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Azure DevOps pull request</title>
+		<link rel="stylesheet" href="/pull-request.css">
+	</head>
+	<body>
+		<main>
+			<h1 class="sr-only">Azure DevOps pull request</h1>
+			<p id="refresh-help" class="sr-only">Refresh is unavailable during another refresh or without a connected pull request.</p>
+			<p id="cancel-help" class="sr-only">Cancels current pull request, overview, and discussion code preview reads.</p>
+			<div id="copy-fallback" class="copy-fallback" hidden>
+				<label for="copy-fallback-url">PR URL</label>
+				<input id="copy-fallback-url" type="text" readonly spellcheck="false" data-selectable="true">
+			</div>
+			<div id="initial-loading" class="page-content initial-loading">
+				<div class="initial-loading-actions">
+					<span>Loading pull request...</span>
+					<button type="button" id="cancel-initial" class="read-control" aria-disabled="true" aria-describedby="cancel-help">Cancel refresh</button>
+				</div>
+				<div aria-hidden="true">
+					<div class="skeleton skeleton-title"></div>
+					<div class="skeleton skeleton-line"></div>
+					<div class="skeleton skeleton-card"></div>
+					<div class="skeleton skeleton-card"></div>
+					<div class="skeleton skeleton-card"></div>
+				</div>
+			</div>
+			<section id="details" data-testid="pr-details" hidden>
+				<header class="canvas-header pr-summary page-content">
+					<div class="title-row">
+						<h2 id="header-title" tabindex="-1">
+							<span id="pr-title" data-selectable="true">Pull request details</span>
+						</h2>
+						<div id="title-actions" class="title-actions">
+							<button type="button" id="edit-title" class="icon-button" aria-label="Edit pull request title" hidden>
+								<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+							</button>
+							<button type="button" id="copy-url" class="icon-button" aria-label="Copy PR URL" aria-disabled="true">
+								<svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+								<svg class="copied-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m20 6-11 11-5-5"/></svg>
+							</button>
+						</div>
+						<div id="title-editor"></div>
+					</div>
+					<div id="header-actions" class="actions">
+						<div id="review-control"></div>
+						<div id="pr-actions"></div>
+						<button type="button" id="cancel" class="read-control" aria-disabled="true" aria-describedby="cancel-help" hidden>Cancel refresh</button>
+					</div>
+					<div class="branch-row">
+						<div class="identity-row">
+							<span id="pr-badge" class="badge">
+								<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<g class="state-open"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><path d="M6 9v12"/></g>
+									<g class="state-closed"><circle cx="6" cy="6" r="3"/><path d="M6 9v12m15-18-6 6m6 0-6-6m3 8.5V15"/><circle cx="18" cy="18" r="3"/></g>
+									<g class="state-draft"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M18 6V5m0 6v-1M6 9v12"/></g>
+									<g class="state-merged"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></g>
+								</svg>
+								<span id="pr-state" data-testid="pr-state"></span>
+							</span>
+							<span id="pr-number" data-selectable="true"></span>
+							<span class="proposal"><strong id="author" data-selectable="true"></strong> proposes to merge</span>
+						</div>
+						<div class="branch-flow">
+							<span class="sr-only">Source branch</span><span id="source-ref" class="branch" data-selectable="true"></span>
+							<span class="muted">into</span>
+							<span class="sr-only">Target branch</span><span id="target-ref" class="branch" data-selectable="true"></span>
+						</div>
+					</div>
+					<span id="pr-url" class="sr-only" data-selectable="true"></span>
+				</header>
+				<div id="overview-panel">
+					<div class="overview-layout page-content">
+						<div class="overview-main">
+							<div class="section-state">
+								<p id="overview-status" tabindex="-1" data-selectable="true"></p>
+								<button type="button" id="retry-overview" aria-describedby="overview-status" hidden>Retry overview</button>
+							</div>
+							<div id="overview-loading" class="overview-loading" aria-hidden="true" hidden>
+								<div class="skeleton skeleton-line"></div>
+								<div class="skeleton skeleton-line"></div>
+							</div>
+							<section class="card checks-card">
+								<div class="section-heading"><h3>Checks</h3></div>
+								<div class="checks-overview">
+									<span id="check-overview-icon" class="checks-overview-icon" aria-hidden="true"></span>
+									<div class="checks-overview-copy">
+										<p id="check-summary" class="check-summary" data-selectable="true">Loading checks...</p>
+										<p id="policy-summary" class="check-note" data-testid="policy-summary" data-selectable="true"></p>
+									</div>
+									<div id="checks-actions" class="checks-overview-actions"></div>
+								</div>
+								<p id="status-checks-error" class="check-note" data-selectable="true" hidden></p>
+								<div id="checks" data-testid="checks"></div>
+							</section>
+							<section class="card reviewers-card">
+								<div class="section-heading"><h3>Reviewers</h3></div>
+								<div class="reviewers-body">
+									<div id="reviewers" data-testid="reviewers"></div>
+									<div id="reviewer-actions"></div>
+								</div>
+							</section>
+							<section class="card description-card">
+								<div class="section-heading">
+									<h3 id="description-heading">Description</h3>
+									<button type="button" id="edit-description" class="icon-button" aria-label="Edit pull request description" hidden>
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+									</button>
+								</div>
+								<div id="description-editor"></div>
+								<div class="comment-body">
+									<div id="description-content">
+										<div id="description" data-testid="description" data-selectable="true" tabindex="-1"></div>
+									</div>
+								</div>
+								<button id="description-toggle" class="description-toggle" type="button" aria-expanded="false" hidden>
+									Full description
+									<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4 6 4 4 4-4"/></svg>
+								</button>
+							</section>
+							<section class="discussion">
+								<div class="discussion-header">
+									<h3 id="discussion-heading" tabindex="-1">Comments <span id="discussion-count" class="counter"></span></h3>
+									<div class="discussion-controls">
+										<div id="discussion-filter"></div>
+										<div id="discussion-sort"></div>
+									</div>
+								</div>
+								<div id="discussion-fix-actions" class="discussion-fix-actions"></div>
+								<div id="comment-actions"></div>
+								<div id="threads" data-testid="threads"></div>
+								<div id="review-actions" class="review-actions"></div>
+							</section>
+						</div>
+					</div>
+				</div>
+			</section>
+			<div class="canvas-bottom">
+				<div id="canvas-toast" class="canvas-toast" hidden>
+					<svg class="canvas-toast-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10.3 3.2 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.2a2 2 0 0 0-3.4 0ZM11 8h2v6h-2Zm0 8h2v2h-2Z" fill-rule="evenodd"/></svg>
+					<div class="canvas-toast-content">
+						<p id="toast-title" class="canvas-toast-title"></p>
+						<p id="toast-message" class="canvas-toast-message" data-selectable="true"></p>
+					</div>
+					<button type="button" id="toast-close" class="canvas-toast-close" aria-label="Close notification">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg>
+					</button>
+				</div>
+				<footer id="canvas-footer" class="canvas-footer" hidden>
+					<div class="footer-controls">
+						<button type="button" id="refresh" class="footer-link" aria-disabled="true" aria-describedby="refresh-help">Refresh</button>
+					</div>
+					<p id="mutation-status" class="mutation-status" tabindex="-1" data-selectable="true" hidden></p>
+					<p id="status" data-testid="refresh-status" tabindex="-1" data-selectable="true">Loading pull request...</p>
+				</footer>
+			</div>
+			<div id="copy-tooltip" class="canvas-tooltip" role="tooltip" hidden>Copy PR URL</div>
+			<p id="copy-status" class="sr-only" data-testid="copy-status"></p>
+			<p id="notice" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+		</main>
+		<script type="module" src="/pull-request-client.mjs"></script>
+	</body>
+</html>

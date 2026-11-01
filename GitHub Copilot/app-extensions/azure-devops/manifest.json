@@ -1,0 +1,388 @@
+{
+	"id": "com.microsoft.azure-devops",
+	"version": "0.1.0",
+	"icon": "./assets/ado.png",
+	"engines": {
+		"github-app": "^0.2.0"
+	},
+	"activations": [
+		{
+			"id": "app",
+			"owner": "app",
+			"authentication": {
+				"resources": ["azure-devops"]
+			},
+			"entry": {
+				"node": "./app.mjs"
+			},
+			"contributes": {
+				"forgeProviders": [
+					{
+						"id": "azure-devops",
+						"title": "Azure DevOps",
+						"agentMerge": true,
+						"createPullRequestTool": {
+							"description": "Create and persist an Azure DevOps pull request for the current session's repository and branch. Use this tool for Azure DevOps PR creation for the current session. It cannot select another repository, head branch, or session, or retarget an existing PR. Do not call it for those unsupported operations or as a capability probe; explain the scope limitation. For supported requests, do not use `az repos pr create`, HTTP, or any other creation route. A failure is not permission to switch to the CLI or GitHub. This tool uses the workspace's saved repository account; app Microsoft sign-in does not supply Git push credentials. Commit and push before calling this tool. Supply a nonempty body (maximum 8192 UTF-8 bytes); draft defaults to false. This tool does not support repositories outside the admitted Azure DevOps binding.",
+							"propertyDescriptions": {
+								"body": "Pull request description/body. Required and nonempty for Azure DevOps (maximum 8192 UTF-8 bytes).",
+								"draft": "Whether to create the PR as draft. Optional; defaults to false.",
+								"maintainerCanModify": "Ignored for Azure DevOps; this option only applies to GitHub."
+							}
+						},
+						"replyToReviewThreadTool": {
+							"description": "Reply inside an existing Azure DevOps pull request comment thread without resolving it. Use `reply_and_resolve_review_thread` instead to resolve the thread after replying. Targets the current workspace's Azure DevOps pull request with the workspace's saved repository account. Do not use `az repos`, HTTP, or any other write route.",
+							"propertyDescriptions": {
+								"thread_id": "Feedback ID of the thread, exactly as returned by read_agent_merge_reviews (for example `thread:42`).",
+								"root_comment_id": "Omit for Azure DevOps; this option only applies to GitHub.",
+								"body": "Markdown body of the reply.",
+								"repo_full_name": "Omit for Azure DevOps; this option only applies to GitHub.",
+								"pr_number": "Omit for Azure DevOps; this option only applies to GitHub."
+							}
+						},
+						"replyAndResolveReviewThreadTool": {
+							"description": "Reply inside an existing Azure DevOps pull request comment thread, then mark it fixed only after the reply is confirmed. Use `reply_to_review_thread` instead to leave the thread active. If the thread is already resolved, nothing is posted. If the reply was confirmed but resolution was not, call again with the same body; the existing reply is reused. Targets the current workspace's Azure DevOps pull request with the workspace's saved repository account. Do not use `az repos`, HTTP, or any other write route.",
+							"propertyDescriptions": {
+								"thread_id": "Feedback ID of the thread, exactly as returned by read_agent_merge_reviews (for example `thread:42`).",
+								"root_comment_id": "Omit for Azure DevOps; this option only applies to GitHub.",
+								"body": "Markdown body of the reply. Say what you changed, or why you disagree or deferred.",
+								"repo_full_name": "Omit for Azure DevOps; this option only applies to GitHub.",
+								"pr_number": "Omit for Azure DevOps; this option only applies to GitHub."
+							}
+						},
+						"prUiActions": [
+							{
+								"name": "create",
+								"title": "Create pull request",
+								"inputSchema": {
+									"type": "object",
+									"properties": {
+										"draft": {
+											"type": "boolean"
+										}
+									},
+									"required": ["draft"],
+									"additionalProperties": false
+								}
+							},
+							{
+								"name": "set-draft",
+								"title": "Change pull request draft status",
+								"inputSchema": {
+									"type": "object",
+									"properties": {
+										"draft": {
+											"type": "boolean"
+										}
+									},
+									"required": ["draft"],
+									"additionalProperties": false
+								}
+							},
+							{
+								"name": "complete",
+								"title": "Complete pull request",
+								"inputSchema": {
+									"type": "object",
+									"properties": {
+										"sourceRef": {
+											"type": "string",
+											"pattern": "^refs/heads/.+"
+										},
+										"targetRef": {
+											"type": "string",
+											"pattern": "^refs/heads/.+"
+										},
+										"sourceCommit": {
+											"type": "string",
+											"pattern": "^[a-fA-F0-9]{40}$"
+										},
+										"mergeStrategy": {
+											"type": "string",
+											"enum": [
+												"noFastForward",
+												"squash",
+												"rebase",
+												"rebaseMerge"
+											]
+										},
+										"postCompletionOptions": {
+											"type": "array",
+											"items": {
+												"type": "string",
+												"enum": [
+													"deleteSourceBranch",
+													"completeAssociatedWorkItems"
+												]
+											},
+											"maxItems": 2,
+											"uniqueItems": true
+										}
+									},
+									"required": ["sourceRef", "targetRef", "sourceCommit"],
+									"additionalProperties": false
+								}
+							},
+							{
+								"name": "submit-review",
+								"title": "Submit pull request review",
+								"inputSchema": {
+									"type": "object",
+									"properties": {
+										"decision": {
+											"type": "string",
+											"enum": [
+												"approve",
+												"approve-with-suggestions",
+												"comment",
+												"wait-for-author",
+												"reject"
+											]
+										},
+										"body": {
+											"type": "string",
+											"maxLength": 65536
+										},
+										"sourceCommitId": {
+											"type": "string",
+											"pattern": "^[a-fA-F0-9]{40}$"
+										},
+										"inlineComments": {
+											"type": "array",
+											"maxItems": 100,
+											"items": {
+												"type": "object",
+												"properties": {
+													"path": {
+														"type": "string",
+														"minLength": 1
+													},
+													"side": {
+														"type": "string",
+														"enum": ["LEFT", "RIGHT"]
+													},
+													"startLine": {
+														"type": "integer",
+														"minimum": 1
+													},
+													"line": {
+														"type": "integer",
+														"minimum": 1
+													},
+													"body": {
+														"type": "string",
+														"minLength": 1,
+														"maxLength": 65536
+													}
+												},
+												"required": ["path", "line", "body"],
+												"additionalProperties": false
+											}
+										}
+									},
+									"required": ["decision", "body", "inlineComments"],
+									"additionalProperties": false
+								}
+							}
+						],
+						"pullRequestProjectionObserver": true,
+						"repositoryPickerCanvas": {
+							"canvasId": "repository-picker",
+							"cloneResult": true,
+							"cloneOrigins": ["https://dev.azure.com"],
+							"remoteAliases": [
+								{
+									"remote": "https://{organization}.visualstudio.com/{project}/_git/{repository}",
+									"canonical": "https://dev.azure.com/{organization}/{project}/_git/{repository}"
+								},
+								{
+									"remote": "https://{organization}.visualstudio.com/DefaultCollection/{project}/_git/{repository}",
+									"canonical": "https://dev.azure.com/{organization}/{project}/_git/{repository}"
+								},
+								{
+									"remote": "https://{organization}.visualstudio.com/{project}/_git/_optimized/{repository}",
+									"canonical": "https://dev.azure.com/{organization}/{project}/_git/{repository}"
+								},
+								{
+									"remote": "https://{organization}.visualstudio.com/DefaultCollection/{project}/_git/_optimized/{repository}",
+									"canonical": "https://dev.azure.com/{organization}/{project}/_git/{repository}"
+								},
+								{
+									"remote": "ssh://ssh.dev.azure.com/v3/{organization}/{project}/{repository}",
+									"canonical": "https://dev.azure.com/{organization}/{project}/_git/{repository}"
+								},
+								{
+									"remote": "ssh://vs-ssh.visualstudio.com/v3/{organization}/{project}/{repository}",
+									"canonical": "https://dev.azure.com/{organization}/{project}/_git/{repository}"
+								}
+							]
+						},
+						"pullRequestView": {
+							"canvasId": "pull-request",
+							"open": true
+						},
+						"createFromCanvas": {
+							"canvasId": "create-from"
+						}
+					}
+				],
+				"canvases": [
+					{
+						"id": "create-from",
+						"title": "Create from Azure DevOps",
+						"requires": {
+							"forgeProvider": "azure-devops"
+						},
+						"inputSchema": {
+							"type": "object",
+							"properties": {
+								"originUrl": {
+									"type": "string",
+									"minLength": 1,
+									"maxLength": 2048
+								},
+								"accountId": {
+									"type": "string",
+									"minLength": 1,
+									"maxLength": 512
+								}
+							},
+							"required": ["originUrl"],
+							"additionalProperties": false
+						},
+						"dialogCompletion": {
+							"stateAction": "dialog-state",
+							"confirmAction": "confirm-selection"
+						},
+						"actions": [
+							{
+								"name": "dialog-state",
+								"title": "Observe selection readiness",
+								"inputSchema": {
+									"type": "object",
+									"properties": {
+										"afterRevision": {
+											"type": ["integer", "null"],
+											"minimum": 0,
+											"maximum": 9007199254740991
+										}
+									},
+									"required": ["afterRevision"],
+									"additionalProperties": false
+								}
+							},
+							{
+								"name": "confirm-selection",
+								"title": "Confirm branch selection",
+								"inputSchema": {
+									"type": "object",
+									"additionalProperties": false
+								}
+							}
+						]
+					},
+					{
+						"id": "pull-request",
+						"title": "Azure DevOps pull request",
+						"inputSchema": {
+							"type": "object",
+							"properties": {
+								"url": {
+									"type": "string",
+									"minLength": 1,
+									"maxLength": 2048
+								}
+							},
+							"required": ["url"],
+							"additionalProperties": false
+						},
+						"actions": [
+							{
+								"name": "refresh",
+								"title": "Refresh pull request",
+								"inputSchema": {
+									"type": "object",
+									"additionalProperties": false
+								}
+							},
+							{
+								"name": "cancel-refresh",
+								"title": "Cancel refresh",
+								"inputSchema": {
+									"type": "object",
+									"additionalProperties": false
+								}
+							}
+						],
+						"requires": {
+							"forgeProvider": "azure-devops"
+						}
+					},
+					{
+						"id": "repository-picker",
+						"title": "Azure DevOps repository picker",
+						"dialogCompletion": {
+							"stateAction": "dialog-state",
+							"confirmAction": "confirm-selection",
+							"accountChangedAction": "account-changed"
+						},
+						"inputSchema": {
+							"type": "object",
+							"additionalProperties": false
+						},
+						"actions": [
+							{
+								"name": "get-state",
+								"title": "Read repository picker state",
+								"inputSchema": {
+									"type": "object",
+									"additionalProperties": false
+								}
+							},
+							{
+								"name": "account-changed",
+								"title": "Refresh authorized account",
+								"inputSchema": {
+									"type": "object",
+									"properties": {
+										"accountReference": {
+											"type": ["string", "null"]
+										}
+									},
+									"required": ["accountReference"],
+									"additionalProperties": false
+								}
+							},
+							{
+								"name": "dialog-state",
+								"title": "Observe dialog readiness",
+								"inputSchema": {
+									"type": "object",
+									"properties": {
+										"afterRevision": {
+											"type": ["integer", "null"],
+											"minimum": 0,
+											"maximum": 9007199254740991
+										}
+									},
+									"required": ["afterRevision"],
+									"additionalProperties": false
+								}
+							},
+							{
+								"name": "confirm-selection",
+								"title": "Confirm repository selection",
+								"inputSchema": {
+									"type": "object",
+									"additionalProperties": false
+								}
+							}
+						],
+						"requires": {
+							"forgeProvider": "azure-devops"
+						}
+					}
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "platform": "win32",
+  "architecture": "x64",
+  "files": [
+    {
+      "path": "auth-worker.cjs",
+      "sha256": "c4937e5f658c97f021e5f0e7afa1655bdfe3f48aa237ffbc0f9e2a5d065914a7"
+    },
+    {
+      "path": "dependency-provenance\\@azure_msal-common.16.14.0\\LICENSE",
+      "sha256": "c544adf8f0d43453d9fdf6c11da19605d12d89806a7870653169b8cc97f5bb53"
+    },
+    {
+      "path": "dependency-provenance\\@azure_msal-common.16.14.0\\package.json",
+      "sha256": "d2293205e3d658af44f2190d46ee02cfed040a6bd84fafbd8f2e9ea94e7aafa6"
+    },
+    {
+      "path": "dependency-provenance\\@azure_msal-node-extensions.5.5.0\\LICENSE",
+      "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+    },
+    {
+      "path": "dependency-provenance\\@azure_msal-node-extensions.5.5.0\\package.json",
+      "sha256": "4956502e0bc96bd16aa75a8bd07bfd53c81ecb0cd70a846a7ef1e903e133e78f"
+    },
+    {
+      "path": "dependency-provenance\\@azure_msal-node-runtime.0.20.6\\LICENSE-Microsoft-MIT",
+      "sha256": "17474e386e0b9e1a700cc3d06b2b0882a2c376d9c6b49c7f8274409b8f8d2352"
+    },
+    {
+      "path": "dependency-provenance\\@azure_msal-node-runtime.0.20.6\\package.json",
+      "sha256": "6da7edb31341315c63aab6c45e772c375736e913bc2bf76137cb161307e65793"
+    },
+    {
+      "path": "dependency-provenance\\@azure_msal-node.6.0.0\\LICENSE",
+      "sha256": "17474e386e0b9e1a700cc3d06b2b0882a2c376d9c6b49c7f8274409b8f8d2352"
+    },
+    {
+      "path": "dependency-provenance\\@azure_msal-node.6.0.0\\package.json",
+      "sha256": "2c6503cee666653d43c63c1c4d3bf4902fb06a6196f7566e72fd5fe3c0dd2a3e"
+    },
+    {
+      "path": "dependency-provenance\\buffer-equal-constant-time.1.0.1\\LICENSE.txt",
+      "sha256": "751d0e80fb5c828f8c3de198cc760e1e05377e47c8263ab6ee2f10cdc19ba658"
+    },
+    {
+      "path": "dependency-provenance\\buffer-equal-constant-time.1.0.1\\package.json",
+      "sha256": "2d3df7ecb57811cf6fc43be180d9801c7c70928e5388391a6f258d889449ef4e"
+    },
+    {
+      "path": "dependency-provenance\\ecdsa-sig-formatter.1.0.11\\LICENSE",
+      "sha256": "50a6b24f8defc31a078aa9799a91d776f83948071574854f12473362aee74d0d"
+    },
+    {
+      "path": "dependency-provenance\\ecdsa-sig-formatter.1.0.11\\package.json",
+      "sha256": "f8c0805a13487310192db6ae04452c4315f5538ae87d7bc20de2904902c34027"
+    },
+    {
+      "path": "dependency-provenance\\jsonwebtoken.9.0.3\\LICENSE",
+      "sha256": "2144eb6894cb440fde6b2b3aaae3b617c8f1dc9bb19813079dcf62ec6c517042"
+    },
+    {
+      "path": "dependency-provenance\\jsonwebtoken.9.0.3\\package.json",
+      "sha256": "3a49dada910349920f89122254957f18d3b887159b0cb14a672cb5ba85fed17e"
+    },
+    {
+      "path": "dependency-provenance\\jwa.2.0.1\\LICENSE",
+      "sha256": "3320319f8a5f42bc4254e65471eca7a5ea4dc8c883c4c24b4868e36b14890bcf"
+    },
+    {
+      "path": "dependency-provenance\\jwa.2.0.1\\package.json",
+      "sha256": "53610fa0143c2cdef9d280e0c029ededf688930648358d4f3e35a081d75219d8"
+    },
+    {
+      "path": "dependency-provenance\\jws.4.0.1\\LICENSE",
+      "sha256": "3320319f8a5f42bc4254e65471eca7a5ea4dc8c883c4c24b4868e36b14890bcf"
+    },
+    {
+      "path": "dependency-provenance\\jws.4.0.1\\package.json",
+      "sha256": "a934389f53e2ac8909d5399410c1ede3e35397be9e9f521bde25b61e1fee0b2f"
+    },
+    {
+      "path": "dependency-provenance\\keytar.7.9.0\\LICENSE.md",
+      "sha256": "224fcc506ef97afd088b487edab374abcad7e3d4de55fb8cce4f04328397213f"
+    },
+    {
+      "path": "dependency-provenance\\keytar.7.9.0\\package.json",
+      "sha256": "a61ef35e2be5303ebd66939abafc243a9a2427e8f4d707abb0e34301be80c3c5"
+    },
+    {
+      "path": "dependency-provenance\\lodash.includes.4.3.0\\LICENSE",
+      "sha256": "ffd8b33b354585f4ce119f19c53728281e48a97b074491eb6bf6d5c5ff305272"
+    },
+    {
+      "path": "dependency-provenance\\lodash.includes.4.3.0\\package.json",
+      "sha256": "475341d4a8eb63cee296d0be3d0180bcf3731d2b9837d3ba74280044bc1e8f48"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isboolean.3.0.3\\LICENSE",
+      "sha256": "25a399d4a42f419445101092a1fc3f9b4bfe06d614f84128222d79e3a2105fe7"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isboolean.3.0.3\\package.json",
+      "sha256": "2eb21a69e5934d240b5f9b731eb088646c496e0255667ab852fce32e82048d2e"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isinteger.4.0.4\\LICENSE",
+      "sha256": "ffd8b33b354585f4ce119f19c53728281e48a97b074491eb6bf6d5c5ff305272"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isinteger.4.0.4\\package.json",
+      "sha256": "7247346b82f902b15d2698360d45af5dfb5164f628bdc57b83c996b939a27408"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isnumber.3.0.3\\LICENSE",
+      "sha256": "25a399d4a42f419445101092a1fc3f9b4bfe06d614f84128222d79e3a2105fe7"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isnumber.3.0.3\\package.json",
+      "sha256": "73b6302bec5815d609e434b440bd8ecd45d3d71b650c0de88d400cab13891000"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isplainobject.4.0.6\\LICENSE",
+      "sha256": "ffd8b33b354585f4ce119f19c53728281e48a97b074491eb6bf6d5c5ff305272"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isplainobject.4.0.6\\package.json",
+      "sha256": "c76488b831ad65dfa3a3e51201c9eb2193313ba1bee05bad910e9c6fa613bcd7"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isstring.4.0.1\\LICENSE",
+      "sha256": "25a399d4a42f419445101092a1fc3f9b4bfe06d614f84128222d79e3a2105fe7"
+    },
+    {
+      "path": "dependency-provenance\\lodash.isstring.4.0.1\\package.json",
+      "sha256": "6fb3bb13e2d77b249269f9b39d3bd0629206cccb44bf04968643a49678882d0e"
+    },
+    {
+      "path": "dependency-provenance\\lodash.once.4.1.1\\LICENSE",
+      "sha256": "ffd8b33b354585f4ce119f19c53728281e48a97b074491eb6bf6d5c5ff305272"
+    },
+    {
+      "path": "dependency-provenance\\lodash.once.4.1.1\\package.json",
+      "sha256": "7702448f49d390b35edfe095daa8bd684aba40069e0359c2bacf79606d1468e0"
+    },
+    {
+      "path": "dependency-provenance\\ms.2.1.3\\license.md",
+      "sha256": "1662fae9b5314d11cf51284e2dcd1f006a354f7343f08712a730fcff9a359801"
+    },
+    {
+      "path": "dependency-provenance\\ms.2.1.3\\package.json",
+      "sha256": "1a6b4d9739790c0b94ab96c8cc0507e281c164c311ff4fbf5e57fb8d26290b40"
+    },
+    {
+      "path": "dependency-provenance\\packages.json",
+      "sha256": "166896ebc185f9bb2777d438aebbca054261a0c8620538fa5a54877477884edd"
+    },
+    {
+      "path": "dependency-provenance\\safe-buffer.5.2.1\\LICENSE",
+      "sha256": "c7cc929b57080f4b9d0c6cf57669f0463fc5b39906344dfc8d3bc43426b30eac"
+    },
+    {
+      "path": "dependency-provenance\\safe-buffer.5.2.1\\package.json",
+      "sha256": "e4018fdbfe625433371f48274fee26f520bbe865e0d8c85bf3aa07424134b90c"
+    },
+    {
+      "path": "dependency-provenance\\semver.7.8.5\\LICENSE",
+      "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
+    },
+    {
+      "path": "dependency-provenance\\semver.7.8.5\\package.json",
+      "sha256": "7c94cb7f2a53c27b20d76386ec144c062894dbcc909cfabd0f728c37874b1776"
+    },
+    {
+      "path": "node_modules\\@azure\\msal-node-extensions\\bin\\x64\\dpapi.node",
+      "sha256": "6ce11db921a22778b7a0af1960aae0aeca3f315107f9c59eed24ea294cab3a42"
+    },
+    {
+      "path": "node_modules\\@azure\\msal-node-extensions\\lib\\msal-node-extensions.cjs",
+      "sha256": "f485317096a8f4ac9aefbdbf6f218ce950c52d1fb2682361dd315036ab4a3427"
+    },
+    {
+      "path": "node_modules\\@azure\\msal-node-extensions\\package.json",
+      "sha256": "4956502e0bc96bd16aa75a8bd07bfd53c81ecb0cd70a846a7ef1e903e133e78f"
+    },
+    {
+      "path": "node_modules\\@azure\\msal-node-runtime\\dist\\index.cjs",
+      "sha256": "0ef1570ff05e7e852f126d69fbde4d1a7b4be33e19b1ffa05a4ea9785674f5cc"
+    },
+    {
+      "path": "node_modules\\@azure\\msal-node-runtime\\dist\\windows\\x64\\msal-node-runtime.node",
+      "sha256": "94b0d879893294cb6459d4c9f0283536c98a52c0e23839408688a4276cf39f09"
+    },
+    {
+      "path": "node_modules\\@azure\\msal-node-runtime\\dist\\windows\\x64\\msalruntime.dll",
+      "sha256": "37df91917c1aae8d4f5f2bc6414b7660b81657994309dad1a7282ce6dd0d429a"
+    },
+    {
+      "path": "node_modules\\@azure\\msal-node-runtime\\package.json",
+      "sha256": "6da7edb31341315c63aab6c45e772c375736e913bc2bf76137cb161307e65793"
+    },
+    {
+      "path": "node_modules\\keytar\\build\\Release\\keytar.node",
+      "sha256": "bea7b692cbea883364a1261d16ded9106fe4321262dc913b55832840dce38184"
+    },
+    {
+      "path": "node_modules\\keytar\\lib\\keytar.js",
+      "sha256": "e858194902d632e217b60b913829865749568fd43aee2d65bf7ffcefd7b1d6ae"
+    },
+    {
+      "path": "node_modules\\keytar\\package.json",
+      "sha256": "a61ef35e2be5303ebd66939abafc243a9a2427e8f4d707abb0e34301be80c3c5"
+    },
+    {
+      "path": "window\\PowerPointAuthWindow.exe",
+      "sha256": "2ae78f8c6d7a08c0fbd3fcd6951a93caef7ee91b220ee63cf782d7331b33d6b6"
+    },
+    {
+      "path": "window\\provenance.json",
+      "sha256": "bf471d021e9a78cbd13f5dcbb50784a171d6394e253baaa7fe6465cc6caad905"
+    }
+  ]
+}

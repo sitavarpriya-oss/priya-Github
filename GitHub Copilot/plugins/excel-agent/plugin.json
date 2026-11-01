@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "excel-agent",
+  "version": "0.1.5-57692217",
+  "description": "Create and edit Excel workbooks, then open them directly in an authenticated Copilot side-by-side canvas.",
+  "keywords": [
+    "excel",
+    "workbooks",
+    "excel-agent",
+    "sheets",
+    "office",
+    "canvas"
+  ]
+}

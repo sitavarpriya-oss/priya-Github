@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "powerpoint-agent",
+  "version": "0.1.0-57661806",
+  "description": "Create and edit PowerPoint presentations with Office MCP, then preview them in an authenticated Copilot app canvas and chat card.",
+  "keywords": [
+    "powerpoint",
+    "presentations",
+    "office",
+    "canvas"
+  ]
+}

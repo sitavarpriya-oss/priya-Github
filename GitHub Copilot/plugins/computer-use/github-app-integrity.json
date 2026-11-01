@@ -1,0 +1,28 @@
+{
+	"schemaVersion": 1,
+	"pluginName": "computer-use",
+	"pluginVersion": "0.1.94",
+	"target": "win32-x64",
+	"files": [
+		{
+			"path": "CopilotComputerUse.exe",
+			"size": 2988992,
+			"sha256": "90872b526bbf3dd98f0ac90d1dcd3b8d4a4da90569fd5fbcfc606670928c3fd5"
+		},
+		{
+			"path": "computer-use-mcp.exe",
+			"size": 1816000,
+			"sha256": "8ebdc581ff60c7fa34f762fc60fecbfb8ecd02619ad83d928f687c5b16625e5a"
+		},
+		{
+			"path": "mcp.json",
+			"size": 240,
+			"sha256": "e4312d9f55ea9027d415759d7bead87031da73a8f46b4fe374c6f5c5c10e7b87"
+		},
+		{
+			"path": "plugin.json",
+			"size": 185,
+			"sha256": "6b548359b5b00e792de82e2fd114ac50fff0ef8139378784f9c4454e01c3aea4"
+		}
+	]
+}
